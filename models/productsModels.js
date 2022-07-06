@@ -1,8 +1,5 @@
 const db = require('./db');
-
-const logError = (error) => {
-  console.log(error.message);
-};
+const { logError } = require('../helprs');
 
 const getModels = async () => {
   try {

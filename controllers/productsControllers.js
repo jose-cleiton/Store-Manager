@@ -1,20 +1,20 @@
 const services = require('../services/productsServices');
 const models = require('../models/productsModels');
 
-const addController = async (req, res) => {
+const addController = async (req, res, next) => {
   const { name } = req.body;
   const product = await services.addServices(name);
-  if (!product) return res.status(400).json({ error: 'Não foi possível cadastrar o produto' });
+  if (!product) return next({ status: 400, message: 'Não foi possível adicionar o produto' });
   return res.status(201).json(product);
 };
 
-const getController = async (req, res) => {
+const getController = async (req, res, next) => {
   const products = await services.getServices();
-  if (!products) return res.status(404).json({ error: 'Não há produtos cadastrados' });
+  if (!products) return next({ status: 404, message: 'Não há produtos cadastrados' });
   return res.status(200).json(products);
 };
 
-const getByIdController = async (req, res) => { 
+const getByIdController = async (req, res, next) => { 
   const { id } = req.params;
   const { a } = req.query;
   const [product] = await services.getByIdServices(id);
@@ -28,26 +28,24 @@ const getByIdController = async (req, res) => {
       }
       return res.status(200).json(searchedProduct);
     case !product || product.length === 0:
-      return res.status(404).json({
-        message: 'Product not found',
-      });
+     return next({ status: 404, message: 'Não há produtos cadastrados' });
     default:
       return res.status(200).json(product);
   }
 };
 
-const updateController = async (req, res) => {
+const updateController = async (req, res, next) => {
   const { id } = req.params;
   const { name } = req.body;
   const affectedRows = await services.updateServices(id, name);
-  if (!affectedRows) return res.status(400).json({ error: 'Não foi possível atualizar o produto' });
+  if (!affectedRows) next({ status: 400, message: 'Não foi possível atualizar o produto' });
   return res.status(200).json({ id, name });
 };
 
-const deleteController = async (req, res) => { 
+const deleteController = async (req, res, next) => { 
   const { id } = req.params;
   const affectedRows = await services.deleteServices(id);
-  if (!affectedRows) return res.status(400).json({ error: 'Não foi possível deletar o produto' });
+  if (!affectedRows) next({ status: 400, message: 'Não foi possível deletar o produto' });
   return res.status(204).end();
 };
 
