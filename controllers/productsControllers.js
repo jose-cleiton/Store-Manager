@@ -5,7 +5,7 @@ const addController = async (req, res) => {
   const { name } = req.body;
   const product = await services.addServices(name);
   if (!product) return res.status(400).json({ error: 'Não foi possível cadastrar o produto' });
-  return res.status(200).json(product);
+  return res.status(201).json(product);
 };
 
 const getController = async (req, res) => {

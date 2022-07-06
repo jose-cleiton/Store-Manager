@@ -13,12 +13,12 @@ const getByIdModels = async (id) => {
 };
  
 const createModels = async (name) => {
-  const [{ id }] = await db.execute(
+  const [{ insertId }] = await db.execute(
     'INSERT INTO StoreManager.products (name) VALUES (?)',
     [name],
   );
   const product = {
-    id,
+    id: insertId,
     name,
   };
   return product;
