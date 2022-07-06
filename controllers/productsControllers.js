@@ -10,7 +10,7 @@ const addController = async (req, res, next) => {
 
 const getController = async (req, res, next) => {
   const products = await services.getServices();
-  if (!products) return next({ status: 404, message: 'Não há produtos cadastrados' });
+  if (!products) return next({ status: 404, message: 'Product not found' });
   return res.status(200).json(products);
 };
 
@@ -28,7 +28,7 @@ const getByIdController = async (req, res, next) => {
       }
       return res.status(200).json(searchedProduct);
     case !product || product.length === 0:
-     return next({ status: 404, message: 'Não há produtos cadastrados' });
+     return next({ status: 404, message: 'Product not found' });
     default:
       return res.status(200).json(product);
   }
