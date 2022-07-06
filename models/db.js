@@ -1,4 +1,4 @@
-const mysql = require('dotenv').config(); // não se esqueça de configurar suas variáveis de ambiente aqui na configuração
+const mysql = require('mysql2/promise');
 
   const db = mysql.createPool({
     host: process.env.MYSQL_HOST,
