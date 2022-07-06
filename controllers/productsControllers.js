@@ -11,7 +11,7 @@ const addController = async (req, res) => {
 const getController = async (req, res) => {
   const products = await services.getServices();
   if (!products) return res.status(404).json({ error: 'Não há produtos cadastrados' });
-  return res.status(200).json(products);
+  return res.status(201).json(products);
 };
 
 const getByIdController = async (req, res) => { 
