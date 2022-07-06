@@ -5,7 +5,6 @@ const addServices = async (name) => {
   const product = await model.createModels(name);
   return product;
 };
-
 const getServices = async () => {
   const products = await model.getModels();
   if (!products) return [];
