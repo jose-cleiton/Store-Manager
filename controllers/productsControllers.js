@@ -1,10 +1,9 @@
 const services = require('../services/productsServices');
 const models = require('../models/productsModels');
 
-const addController = async (req, res, next) => {
+const addController = async (req, res) => {
   const { name } = req.body;
-  const product = await services.addServices(name);
-  if (!product) return next({ status: 400, message: 'Não foi possível adicionar o produto' });
+  const product = await services.addServices(name); 
   return res.status(201).json(product);
 };
 
