@@ -15,16 +15,14 @@ const creatControllers = async (req, res, next) => {
 
 const getAllControllers = async (req, res, next) => {
   try {
-    const { id } = req.params;
-    const result = await salesProductsServices.getProductsSalesServiceById(id);
+    const result = await salesProductsServices.getAllSalesProductsService();
     if (!result) return next({ status: 404, message: 'Sale not found' });
     return res(200).json(result);
   } catch (error) {
     next({ status: 500, message: INTERNAL });
   }
 };
-
-const getByIdControllers = async (req, res, next) => {
+const getByIdControllers = async (req, res, next) => { 
   try {
     const { id } = req.params;
     const result = await salesProductsServices.getProductsSalesServiceById(id);

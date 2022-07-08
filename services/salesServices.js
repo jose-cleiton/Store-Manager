@@ -1,4 +1,3 @@
-
 const salesModel = require('../models/salesModels');
 const productsModels = require('../models/productsModels');
 
