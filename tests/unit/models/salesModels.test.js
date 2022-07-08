@@ -1,22 +1,22 @@
-const { expect } = require('chai');
-const sinon = require('sinon');
+// const { expect } = require('chai');
+// const sinon = require('sinon');
 
-const connection = require('../../../helpers/connection');
-const salesModel = require('../../../models/salesModels');
+// const connection = require('../../../helpers/connection');
+// const salesModel = require('../../../models/salesModels');
 
 
-describe('criar modelo de vendas', () => {
-  before(async () => {
-    await connection.connect();
-  }).after(async () => {
-    await connection.close();
-  }).beforeEach(async () => {
-    await connection.query('DELETE FROM sales');
-  }).afterEach(async () => {
-    await connection.query('DELETE FROM sales');
-  }).after(async () => {
-    await connection.close();
-  }).timeout(0);
+// describe('criar modelo de vendas', () => {
+//   before(async () => {
+//     await connection.connect();
+//   }).after(async () => {
+//     await connection.close();
+//   }).beforeEach(async () => {
+//     await connection.query('DELETE FROM sales');
+//   }).afterEach(async () => {
+//     await connection.query('DELETE FROM sales');
+//   }).after(async () => {
+//     await connection.close();
+//   }).timeout(0);
 
  
     it('deve retornar true se as vendas forem criadas', async () => {
