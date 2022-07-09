@@ -1,6 +1,6 @@
 const salesProductsModels = require('../models/salesProductsModels');
 const salesModels = require('../models/salesModels');
-const logError = require('../helprs');
+
 const productsModels = require('../models/productsModels');
 
 const checkProductService = async (sales) => {
@@ -13,18 +13,21 @@ const checkProductService = async (sales) => {
     const isIdInvalid = products.some((product) => product.length === 0);
     return isIdInvalid;
   } catch (error) {
-    logError(error);
+    console.log(error);
   }
 };
 
-const creatProductService = async (sales) => { 
+const creatProductService = async (sales) => {
   try {
-const isIdInvalid = await checkProductService(sales);
+    const isIdInvalid = await checkProductService(sales);
+    console.log(isIdInvalid);
+ 
   if (isIdInvalid) return false;
-  const result = await salesProductsModels.creatSelesModel(sales);
+ const result = await salesProductsModels.creatProductModel(sales);
+ console.log(result);
   return result;
   } catch (error) {
-    logError(error); 
+    console.log(error);
 }
 };
 
@@ -39,7 +42,7 @@ const getAllSalesProductsService = async () => {
     }));
     return result;
   } catch (error) {
-    logError(error);
+   console.log(error);
   }
 };
 
@@ -53,7 +56,7 @@ const getProductsSalesServiceById = async (id) => {
     }));
     return result;
   } catch (error) {
-    logError(error);
+   console.log();
   }
 };
 
@@ -64,7 +67,7 @@ const deletSalesProductsServiceById = async (Id) => {
     const result = await salesProductsModels.deletSalesProductsModelById(Id);
     return result;
   } catch (error) { 
-    logError(error);
+    console.log(error);
   }
 };
 
@@ -85,7 +88,7 @@ const updateSalesProductsServiceById = async (saleId, sales) => {
       itemsUpdated: sales };  
     return updatedItems;
   } catch (error) {
-    logError(error);
+    console.log(error);
   }
 };
 module.exports = {

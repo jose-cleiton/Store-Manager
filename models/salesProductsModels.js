@@ -6,19 +6,21 @@ const creatProductModel = async (sales) => {
   const CPM = 'INSERT INTO StoreManager.sales_products(sale_id, product_id, quantity) VALUES ?;';
   try {
     const saleId = await salesModels.creatSelesModel();
+
     const values = sales.map(({ productId, quantity }) => ([saleId, productId, quantity]));
-    await db.execute(CPM, [values]);
+
+    await db.query(CPM, [values]);
 
     const result = {
       id: saleId,
       itemsSold: sales,
     };
+
     return result;
   } catch (error) {
-    logError(error);
+    console.log(error);
   }
 };
-
 const getAllSalesProductsModel = async () => {
   const GAPM = `
     SELECT sp.sale_id, s.date, sp.product_id, sp.quantity

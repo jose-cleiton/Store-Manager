@@ -20,42 +20,44 @@ const productsDB = [
   },
 ];
 
-describe('Testa a camada controllers', async () => { 
-  beforeEach(async () => {
-    sinon.stub(db, 'query').resolves([productsDB]);
-  }).afterEach(() => {
-    db.query.restore();
-  }).after(() => {
-    db.query.restore();
-  }).timeout(0);
+describe('Testa a camada controlers/productsControllers', () => { 
+  describe('Testa o método getAllProducts', () => {
+    it('Deve retornar um array de produtos', async () => {
+      const getAllProducts = sinon.stub(db, 'query');
+      getAllProducts.returns(Promise.resolve([productsDB]));
+      const result = await controller.getAllProducts();
+      expect(result).to.be.eql(productsDB);
+      getAllProducts.restore();
+    }).timeout(1000);
+  }).timeout(1000);
 
-  it('Deve retornar todos os produtos', async () => {
-    const products = await controller.getProducts();
-    expect(products).to.equal(productsDB);
-  }).timeout(0);
+  
+    it('Deve retornar um produto', async () => {
+      const getProductById = sinon.stub(db, 'query');
+      getProductById.returns(Promise.resolve([productsDB[0]]));
+      const result = await controller.getProductById(1);
+      expect(result).to.be.eql(productsDB[0]);
+      getProductById.restore();
+    }).timeout(1000);
+  }).timeout(1000);
 
-  it('Deve retornar um produto pelo id', async () => {
-    const product = await controller.getById(1);
-    expect(product).to.equal(productsDB[0]);
-  }).timeout(0);
+ 
+    it('Deve retornar um produto', async () => {
+      const createProduct = sinon.stub(db, 'execute');
+      createProduct.returns(Promise.resolve([{ insertId: 1 }]));
+      const result = await controller.createProduct({ name: 'Martelo de Thor' });
+      expect(result).to.be.eql({ insertId: 1 });
+      createProduct.restore();
+    }).timeout(1000);
+  
+  
+    it('Deve retornar um produto', async () => {
+      const updateProduct = sinon.stub(db, 'execute');
+      updateProduct.returns(Promise.resolve([1]));
+      const result = await controller.updateProduct(1, { name: 'Martelo de Thor' });
+      expect(result).to.be.eql(1);
+      updateProduct.restore();
+    
 
-  it('Deve criar um produto', async () => {
-    const product = await controller.addProduct('Martelo de Thor');
-    expect(product).to.equal(productsDB[0]);
-  }).timeout(0);
-
-  it('Deve atualizar um produto', async () => {
-    const affectedRows = await controller.updateProduct(1, 'Martelo de Thor');
-    expect(affectedRows).to.equal(1);
-  }).timeout(0);
-
-  it('Deve deletar um produto', async () => {
-    const affectedRows = await controller.deleteProduct(1);
-    expect(affectedRows).to.equal(1);
-  }).timeout(0);
-
-  it('Deve retornar um produto pelo nome', async () => {
-    const product = await controller.getProductById('Martelo de Thor');
-    expect(product).to.equal(productsDB[0]);
-  }).timeout(0);
+     
 })

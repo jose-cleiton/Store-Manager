@@ -3,6 +3,7 @@ const { errorHandler } = require('../middlewares');
  const { validProduct } = require('../middlewares');
 
 const routes = express.Router();
+
 const controllers = require('../controllers/productsControllers');
 
 routes.use(errorHandler);

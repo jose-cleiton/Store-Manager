@@ -5,14 +5,12 @@ const INTERNAL = 'Internal server error';
 const creatControllers = async (req, res, next) => { 
   try {
     const sales = req.body;
-    
+    console.log(sales);
     const result = await salesProductsServices.creatProductService(sales);
-    console.log(result);
     if (!result) return next({ status: 404, message: 'Product not found' });
     res.status(201).json(result);
   } catch (error) {
-    console.log(error);
-  // next({ status: 500, message: INTERNAL });
+   next({ status: 500, message: INTERNAL });
   }
 };
 

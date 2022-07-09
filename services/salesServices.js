@@ -4,7 +4,8 @@ const productsModels = require('../models/productsModels');
 const checkProduct = async (sales) => {
 try {
  const result = sales.reduce((acc, { productId }) => {
- const product = productsModels.getById(productId);
+   const product = productsModels.getById(productId);
+
  return [...acc, product];
 }, []);
 

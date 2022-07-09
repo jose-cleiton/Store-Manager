@@ -34,6 +34,7 @@
     "express-rescue": "^1.1.26",
     "joi": "^17.6.0",
     "mysql2": "^2.3.0",
+    "rescue": "^6.0.4",
     "shelljs": "^0.8.5"
   },
   "devDependencies": {
