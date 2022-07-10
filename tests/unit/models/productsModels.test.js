@@ -19,44 +19,66 @@ const productsDB = [
   },
 ];
 
-describe('Testa a camada models', async () => {
-  beforeEach(async () => {
-    sinon.stub(db, 'query').resolves([productsDB]);
-  }).afterEach(() => {
-    db.query.restore();
-  }).after(() => {
-    db.query.restore();
-  }).timeout(0);
+describe('Testa o retorno de funções da camada MODEL relacionadas aos endpoints /products e /products/:id', () => {
+  before(async () => {
+    sinon.stub(connection, 'execute').returns(productsDB);
+  });
 
-  it('Deve retornar todos os produtos', async () => {
-    const products = await models.getModels();
-    expect(products).to.equal(productsDB);
-  }).timeout(0);
+  after(async () => {
+    connection.execute.restore();
+  });
 
-  it('Deve retornar um produto pelo id', async () => {
-    const product = await models.getByIdModels(1);
-    expect(product).to.equal(productsDB[0]);
-  }).timeout(0);
+  it('Deve retornar um array de objetos com todos os produtos', async () => {
+    const result = await models.getProducts();
+    expect(result).to.be.an('array');
+    expect(result).to.have.lengthOf(3);
+    expect(result[0]).to.have.property('id');
+    expect(result[0]).to.have.property('name');
+  })
 
-  it('Deve criar um produto', async () => {
-    const product = await models.createModels('Martelo de Thor');
-    expect(product).to.equal(productsDB[0]);
-  }).timeout(0);
+  it('Deve retornar um objeto com um produto específico', async () => {
+    const result = await models.getProductById(1);
+    expect(result).to.be.an('object');
+    expect(result).to.have.property('id');
+    expect(result).to.have.property('name');
+  })
 
-  it('Deve atualizar um produto', async () => {
-    const affectedRows = await models.updateModels(1, 'Martelo de Thor');
-    expect(affectedRows).to.equal(1);
-  }).timeout(0);
+  it('Testa a funcao createModels()', async () => {
+    const result = await models.createProduct('Martelo de Thor');
+    expect(result).to.be.an('object');
+    expect(result).to.have.property('id');
+    expect(result).to.have.property('name');
+  })
+  
+  it('Testa a funcao updateModels()', async () => {
+    const result = await models.updateProduct(1, 'Martelo de Thor');
+    expect(result).to.be.an('object');
+    expect(result).to.have.property('id');
+    expect(result).to.have.property('name');
 
-  it('Deve deletar um produto', async () => {
-    const affectedRows = await models.deleteModels(1);
-    expect(affectedRows).to.equal(1);
-  }).timeout(0);
+  })
+  it('Testa a funcao deleteModels()', async () => {
+    const result = await models.deleteProduct(1);
+    expect(result).to.be.an('object');
+    expect(result).to.have.property('id');
+    expect(result).to.have.property('name');
+  
+  })
+  
+  it('Testa a funcao getModelsById()', async () => {
+    const result = await models.getProductById(1);
+    expect(result).to.be.an('object');
+    expect(result).to.have.property('id');
+    expect(result).to.have.property('name');
+  })
 
-  it('Deve retornar um produto pelo nome', async () => {
-    const product = await models.getModelsById('Martelo de Thor');
-    expect(product).to.equal(productsDB[0]);
-  }).timeout(0);
-}
- )
+  it('Testa a funcao getModelsById()', async () => { 
+    const result = await models.getProductById(1);
+    expect(result).to.be.an('object');
+    expect(result).to.have.property('id');
+    expect(result).to.have.property('name');
+  })
 
+});
+
+  
