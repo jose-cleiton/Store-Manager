@@ -4,6 +4,7 @@ const { errorHandler } = require('./middlewares');
 const app = require('./app');
 require('dotenv').config();
 const router = require('./routes');
+
 const PORT = process.env.PORT || 3000;
 app.use(bodyParser.json());
 
