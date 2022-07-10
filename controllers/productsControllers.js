@@ -42,10 +42,10 @@ const updateController = async (req, res, next) => {
   return res.status(200).json({ id, name });
 };
 
-const deleteController = async (req, res, next) => { 
+const deleteController = async (req, res) => { 
   const { id } = req.params;
-  const affectedRows = await services.deleteServices(id);
-  if (!affectedRows) next({ status: 400, message: 'Não foi possível deletar o produto' });
+  await services.deleteServices(id);
+  
   return res.status(204).end();
 };
 
