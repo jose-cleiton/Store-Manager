@@ -26,7 +26,6 @@ const getByIdControllers = async (req, res, next) => {
   try {
     const { id } = req.params;    
     const result = await salesProductsServices.getProductsSalesServiceById(id);
-   
 
     if (!result) return res.status(404).json({ message: SALES_NOT_FOUND });
 console.log(result);
