@@ -12,5 +12,6 @@ routes.get('/', controllers.getController);
 routes.get('/:id', controllers.getByIdController);
 routes.post('/', validar, controllers.addController);
 routes.put('/:id', validar, validarId, controllers.updateController);
+routes.delete('/:id', validarId, controllers.deleteController);
 
 module.exports = routes;
