@@ -71,9 +71,10 @@ console.log(sales);
 const deletSalesProductsServiceById = async (Id) => {
   try {
     const sales = await salesModels.getByIdSalesModel(Id);
+  
     if (sales.length === 0) return false;
-    const result = await salesProductsModels.deletSalesProductsModelById(Id);
-    return result;
+    await salesProductsModels.deletSalesProductsModelById(Id);   
+    return true;
   } catch (error) { 
     console.log(error);
   }
