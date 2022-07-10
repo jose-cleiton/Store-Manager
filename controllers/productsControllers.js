@@ -38,7 +38,7 @@ const updateController = async (req, res, next) => {
   const { id } = req.params;
   const { name } = req.body;
   const affectedRows = await services.updateServices(id, name);
-  if (!affectedRows) next({ status: 404, message: 'Não foi possível atualizar o produto' });
+  if (!affectedRows) next({ status: 404, message: 'Product not found' });
   return res.status(200).json({ id, name });
 };
 

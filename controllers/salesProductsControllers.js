@@ -28,7 +28,7 @@ const getByIdControllers = async (req, res, next) => {
     const result = await salesProductsServices.getProductsSalesServiceById(id);
 
     if (!result) return res.status(404).json({ message: SALES_NOT_FOUND });
-console.log(result);
+
     return res.status(200).json(result);
   } catch (error) {
     next({ status: 500, message: INTERNAL });
@@ -40,7 +40,7 @@ const deletControllersById = async (req, res, next) => {
     const { id } = req.params;
     const result = await salesProductsServices.deletSalesProductsServiceById(id);
     console.log('result', result);
-    if (!result) return res.status(404).json({ message: SALES_NOT_FOUND });
+    if (!result || result === false) return next({ status: 404, message: SALES_NOT_FOUND });    
     return res.status(204).send();
   } catch (error) {
     next({ status: 500, message: INTERNAL });
@@ -52,7 +52,8 @@ const updateControllersById = async (req, res, next) => {
     const { id } = req.params;
     const sales = req.body;
     const result = await salesProductsServices.updateSalesProductsServiceById(id, sales);
-    if (!result) return res.status(404).json({ message: SALES_NOT_FOUND });
+    if (result.error) return res.status(404).json({ message: result.message });
+  
     return res.status(200).json(result);
   } catch (error) {
     next({ status: 500, message: INTERNAL });
