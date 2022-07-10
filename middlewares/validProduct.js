@@ -5,7 +5,7 @@ const validar = (req, res, next) => {
   if (!name) return next({ status: 400, message: '"name" is required' });
   
   if (name.length < 5) {
-    return next({ status: 400, message: '"name" must be at least 5 characters' }); 
+    return next({ status: 422, message: '"name" length must be at least 5 characters long' }); 
   } 
   next();
 };
@@ -13,7 +13,7 @@ const validar = (req, res, next) => {
 const validarId = async (req, res, next) => {
   const { id } = req.params;
   const [search] = await getByIdModels(id);
-  if (search === undefined) return next({ status: 400, message: 'Product not found' });
+  if (search === undefined) return next({ status: 404, message: 'Product not found' });
  
   next();
 };
