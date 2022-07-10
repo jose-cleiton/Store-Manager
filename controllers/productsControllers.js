@@ -4,6 +4,7 @@ const models = require('../models/productsModels');
 const addController = async (req, res) => {
   const { name } = req.body;
   const product = await services.addServices(name); 
+  console.log(product);
   return res.status(201).json(product);
 };
 

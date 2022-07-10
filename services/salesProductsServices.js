@@ -34,21 +34,29 @@ const creatProductService = async (sales) => {
 const getAllSalesProductsService = async () => {
   try {
     const sales = await salesProductsModels.getAllSalesProductsModel();
-    const result = sales.map(({ sale_id: saleId, date, product_id: productId, quantity }) => ({
+    const result = sales
+      .map((
+        { sale_id: saleId, date, product_id: productId, quantity },
+      ) => (
+        {
     saleId,
     date,
     productId,
     quantity,
-    }));
+        }
+      ));
     return result;
   } catch (error) {
-   console.log(error);
+   console.log(error.message);
   }
 };
 
 const getProductsSalesServiceById = async (id) => { 
   try {
     const sales = await salesProductsModels.getProductsSalesModelById(id);
+console.log(sales);
+    if (sales.length === 0) return false;
+    
     const result = sales.map(({ date, product_id: productId, quantity }) => ({
     date,
     productId,
@@ -56,7 +64,7 @@ const getProductsSalesServiceById = async (id) => {
     }));
     return result;
   } catch (error) {
-   console.log();
+   console.log(error);
   }
 };
 

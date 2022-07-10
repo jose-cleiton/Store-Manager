@@ -5,6 +5,7 @@ const addServices = async (name) => {
   try {
     if (!name) return [];
     const product = await model.createModels(name);
+    console.log(product);
     return product;
   } catch (error) {
     logError(error);
@@ -16,7 +17,7 @@ const getServices = async () => {
     if (!products) return [];
     return products;
   } catch (error) {
-    logError(error);
+    logError(error.message);
   }
 };
 
