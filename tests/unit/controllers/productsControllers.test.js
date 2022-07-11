@@ -3,7 +3,7 @@ const sinon = require('sinon');
 const db = require('../../../models/db');
 
 const controller = require('../../../controllers/productsControllers');
-
+const service = require('../../../services/productServices');
 
 const productsDB = [
   {
@@ -19,45 +19,53 @@ const productsDB = [
     name: 'Escudo do Capitão América',
   },
 ];
+const TXT ='Testa o retorno de funções da camada CONTROLLER relacionadas aos endpoints /products e /products/:id'
 
-describe('Testa a camada controlers/productsControllers', () => { 
-  describe('Testa o método getAllProducts', () => {
-    it('Deve retornar um array de produtos', async () => {
-      const getAllProducts = sinon.stub(db, 'query');
-      getAllProducts.returns(Promise.resolve([productsDB]));
-      const result = await controller.getAllProducts();
-      expect(result).to.be.eql(productsDB);
-      getAllProducts.restore();
-    }).timeout(1000);
-  }).timeout(1000);
+describe(TXT, () => {
+     beforeEach(sinon.restore);
 
-  
-    it('Deve retornar um produto', async () => {
-      const getProductById = sinon.stub(db, 'query');
-      getProductById.returns(Promise.resolve([productsDB[0]]));
-      const result = await controller.getProductById(1);
-      expect(result).to.be.eql(productsDB[0]);
-      getProductById.restore();
-    }).timeout(1000);
-  }).timeout(1000);
+    beforeEach(() => {
+      sinon.stub(service, 'getServices').resolves();
+    });
+
+    afterEach(() => {
+      service.getAllProductsService.restore();
+    });
+
+     const res = {
+        status: sinon.stub().callsFake( () => res),
+        json: sinon.stub().returns(),
+      };
+
+     await controller.getController({}, res);
+   chai.expect(res.status.getCall(0).args[0]).to.equal(200);
+   chai.expect(res.json.getCall(0).args[0]).to.be.an('array');
+   chai.expect(res.json.getCall(0).args[0]).to.have.lengthOf(3);
+   chai.expect(res.json.getCall(0).args[0][0]).to.have.property('id');
+   chai.expect(res.json.getCall(0).args[0][0]).to.have.property('name');
+   
+   it('Deve retornar um array de objetos com todos os produtos', async () => { 
+      const result = await controller.getController({}, res);
+      expect(result).to.be.an('array');
+      expect(result).to.have.lengthOf(3);
+      expect(result[0]).to.have.property('id');
+      expect(result[0]).to.have.property('name');
+   })
+
+   it('Deve retornar um objeto com um produto específico', async () => {
+      const result = await controller.getController({ id: 1 }, res);
+      expect(result).to.be.an('object');
+      expect(result).to.have.property('id');
+      expect(result).to.have.property('name');
+   })
+ })
+
+
 
  
-    it('Deve retornar um produto', async () => {
-      const createProduct = sinon.stub(db, 'execute');
-      createProduct.returns(Promise.resolve([{ insertId: 1 }]));
-      const result = await controller.createProduct({ name: 'Martelo de Thor' });
-      expect(result).to.be.eql({ insertId: 1 });
-      createProduct.restore();
-    }).timeout(1000);
-  
-  
-    it('Deve retornar um produto', async () => {
-      const updateProduct = sinon.stub(db, 'execute');
-      updateProduct.returns(Promise.resolve([1]));
-      const result = await controller.updateProduct(1, { name: 'Martelo de Thor' });
-      expect(result).to.be.eql(1);
-      updateProduct.restore();
-    
+   
+ 
 
-     
-})
+
+  
+  

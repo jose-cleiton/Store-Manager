@@ -18,44 +18,87 @@ const productsDB = [
     name: 'Escudo do Capitão América',
   },
 ];
+describe('Testa o retorno de funções da camada SERVICE relacionadas aos endpoints /products e /products/:id', () => {
+  before(async () => {
+    sinon.stub(connection, 'execute').returns(productsDB);
+  });
 
-describe('Testa a camada services', async () => {
-  beforeEach(async () => {
-    sinon.stub(db, 'query').resolves([productsDB]);
-  }).afterEach(() => {
-    db.query.restore();
-  }).after(() => {
-    db.query.restore();
-  }).timeout(0);
+  after(async () => {
+    connection.execute.restore();
+  });
 
-  it('Deve retornar todos os produtos', async () => {
-    const products = await service.getServices();
-    expect(products).to.equal(productsDB);
-  }).timeout(0);
+  it('Deve retornar um array de objetos com todos os produtos', async () => {
+    const result = await service.getProducts();
+    expect(result).to.be.an('array');
+    expect(result).to.have.lengthOf(3);
+    expect(result[0]).to.have.property('id');
+    expect(result[0]).to.have.property('name');
+  });
 
-  it('Deve retornar um produto pelo id', async () => {
-    const product = await service.getByIdServices(1);
-    expect(product).to.equal(productsDB[0]);
-  }).timeout(0);
+  it('Deve retornar um objeto com um produto específico', async () => {
+    const result = await service.getProductById(1);
+    expect(result).to.be.an('object');
+    expect(result).to.have.property('id');
+    expect(result).to.have.property('name');
+  });
 
-  it('Deve criar um produto', async () => {
-    const product = await service.addServices('Martelo de Thor');
-    expect(product).to.equal(productsDB[0]);
-  }).timeout(0);
+  it('Test a função getServices()', async () => {
+    const result = await service.getServices();
+    expect(result).to.be.an('array');
+    expect(result).to.have.lengthOf(3);
+    expect(result[0]).to.have.property('id');
+    expect(result[0]).to.have.property('name');
+  });
 
-  it('Deve atualizar um produto', async () => {
-    const affectedRows = await service.updateServices(1, 'Martelo de Thor');
-    expect(affectedRows).to.equal(1);
-  }).timeout(0);
+  it('Testa a função createServices()', async () => {
+    const result = await service.createService('Martelo de Thor');
+    expect(result).to.be.an('object');
+    expect(result).to.have.property('id');
+    expect(result).to.have.property('name');
+  });
 
-  it('Deve deletar um produto', async () => {
-    const affectedRows = await service.deleteServices(1);
-    expect(affectedRows).to.equal(1);
-  }).timeout(0);
+  it('Testa a função updateServices()', async () => {
+    const result = await service.updateService(1, 'Martelo de Thor');
+    expect(result).to.be.an('object');
+    expect(result).to.have.property('id');
+    expect(result).to.have.property('name');
+  })
 
-  it('Deve retornar um produto pelo nome', async () => {
-    const product = await service.getByIdServicesById('Martelo de Thor');
-    expect(product).to.equal(productsDB[0]);
-  }).timeout(0);
-}
- )
+  it('Testa a função deleteServices()', async () => {
+    const result = await service.deleteService(1);
+    expect(result).to.be.an('object');
+    expect(result).to.have.property('id');
+    expect(result).to.have.property('name');
+  })
+
+  it('Testa a função getServices()', async () => {
+    const result = await service.getServiceById(1);
+    expect(result).to.be.an('object');
+  
+  })
+
+  it('Testa a função getByIdServices()', async () => {
+    const result = await service.getByIdServices(1);
+    expect(result).to.be.an('object');
+    expect(result).to.have.property('id');
+ 
+  })
+  
+  it('Testa a função addServices()', async () => {
+    const result = await service.addServices('Martelo de Thor');
+    expect(result).to.be.an('object');
+  })
+  
+  it('Testa a função updateServices()', async () => {
+    const result = await service.updateServices(1, 'Martelo de Thor');
+    expect(result).to.be.an('object');
+
+  })
+  
+  it('Testa a função deleteServices()', async () => {
+    const result = await service.deleteServices(1);
+    expect(result).to.be.an('object');
+  })
+
+
+});
