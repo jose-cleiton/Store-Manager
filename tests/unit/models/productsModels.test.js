@@ -74,5 +74,16 @@ describe('Testando o retorno das funcçoes da camada Model', () => {
    
 
   })
+  it('Testando o retorna da função getModelsById', async () => {
+    const [result] = await getModelsById(1);
+    expect(result).to.be.an('object');
+    expect(result).to.have.a.property('name');
+    expect(result).to.have.a.property('id');
+    expect(result.name).to.be.a('string');
+    expect(result.id).to.be.a('number');
+    expect(result.id).to.be.equal(1);
+    expect(result.name).to.be.equal('Martelo de Thor');
+  
+   })
     
 });
