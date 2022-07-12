@@ -4,8 +4,7 @@ const { logError } = require('../helprs');
 const addServices = async (name) => {
   try {
     if (!name) return [];
-    const product = await model.createModels(name);
-    console.log(product);
+    const product = await model.createModels(name);   
     return product;
   } catch (error) {
     logError(error);
@@ -14,6 +13,7 @@ const addServices = async (name) => {
 const getServices = async () => {
   try {
     const products = await model.getModels();
+    
     if (!products) return [];
     return products;
   } catch (error) {

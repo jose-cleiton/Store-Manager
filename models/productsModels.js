@@ -14,14 +14,15 @@ const getModels = async () => {
   try {
     const [product] = await db
       .query('SELECT * FROM StoreManager.products WHERE id = ?', [id]);
+   
     return product;    
   } catch (error) {
     logError(error);
   }
 };
  
-  const createModels = async (name) => {
- try {
+const createModels = async (name) => {
+try {
       const [{ insertId }] = await db.execute(
         'INSERT INTO StoreManager.products (name) VALUES (?)',
         [name],
